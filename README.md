@@ -1,6 +1,6 @@
 ## Presentation
 
-![alt text](https://github.com/alejandro.aguilar.higuera/pizzia/assets/hello.png)
+![alt text](https://github.com/alejandroaguilarhiguera/pizzia/blob/main/assets/hello.png)
 
 ## Show menu
-![alt text](https://github.com/alejandro.aguilar.higuera/pizzia/assets/menu.png)
+![alt text](https://github.com/alejandroaguilarhiguera/pizzia/blob/main/assets/menu.png)

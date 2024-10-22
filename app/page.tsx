@@ -2,7 +2,9 @@
 import { ToolInvocation } from 'ai';
 import { useChat } from 'ai/react';
 import { Pizza }from '@/app/types/Pizza';
+import { Drink } from '@/app/types/Drink';
 import PizzaList from './_components/PizzaList';
+import DrinkList from './_components/DrinkList';
 import PizzaCardSkeleton from './_components/PizzaCardSkeleton';
 import MessageBox from './_components/MessageBox';
 import ChatOptionBox from './_components/ChatOptionBox';
@@ -24,37 +26,27 @@ export default function Chat() {
     api: '/api/use-chat-continue',
     onToolCall: ({ toolCall }) => {
       if (toolCall.toolName === 'showMenu') {
-
         console.log('showMenu toolCall.args !!!!!!!!!', toolCall.args);
         console.log('showMenu toolCall.toolCallId !!!!!!!!!', toolCall.toolCallId);
-
       }
 
       if (toolCall.toolName === 'askForConfirmation') {
-
         console.log('askForConfirmation toolCall.args !!!!!!!!!', toolCall.args);
         console.log('askForConfirmation toolCall.toolCallId !!!!!!!!!', toolCall.toolCallId);
-
       }
 
       if (toolCall.toolName === 'sendRequest') {
-
         console.log('sendRequest toolCall.args !!!!!!!!!', toolCall.args);
         console.log('sendRequest toolCall.toolCallId !!!!!!!!!', toolCall.toolCallId);
 
       }
-
-      
-
-
-
     },
     keepLastMessageOnError: true,
   });
 
   
   return (
-    <div className="flex flex-col w-full max-w-xl  mx-auto stretch">
+    <div className="mb-40 flex flex-col w-full max-w-xl  mx-auto stretch">
       {messages.length === 0 && (<EmptyMessageBox />)} 
 
       {messages.map((m) => (
@@ -92,11 +84,37 @@ export default function Chat() {
                     </>
                   )
               }
+            }            
+
+            if (toolInvocation.toolName === 'showDrinks') {
+              let drinks: Drink[] = [];
+              if ('result' in toolInvocation) {
+                drinks = toolInvocation.result;
+              }
+              switch (toolInvocation.state) {
+                case 'partial-call':
+                  return <>TODO: Partial-call showDrinks</>;
+                case 'call':
+                  return <div className='flex gap-2'>
+                    {Array(3).fill(null).map(() => (<PizzaCardSkeleton />))}
+                  </div>;
+                case 'result':
+                  return <>
+                    <div key={toolCallId} className='mb-3'>
+                      <DrinkList drinks={drinks} />
+                    </div>
+                  </>;
+
+                default:
+                  return (
+                    <>
+                      TODO: Bebidas...
+                    </>
+                  )
+              }
             }
 
-            
-            
-            
+
 
             if (toolInvocation.toolName === 'askForConfirmation') {
               switch (toolInvocation.state) {
@@ -148,8 +166,9 @@ export default function Chat() {
             return (<>{toolInvocation.toolName}</>)
             
           })}
-
-          <MessageBox message={m} />
+          
+           <MessageBox message={m} />
+           
         </div>
       ))}
 
